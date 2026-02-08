@@ -1,0 +1,244 @@
+import { useNavigate } from 'react-router-dom'
+import { Upload, Zap, Brain, Layers, CheckCircle2, ArrowRight, Play } from 'lucide-react'
+import { useState } from 'react'
+import UploadForm from '../components/UploadForm'
+import StudyPackShowcase from '../components/StudyPackShowcase'
+
+const StatChip = ({ label, value }: { label: string; value: string }) => (
+  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white" style={{borderColor: 'rgba(200, 68, 73, 0.3)'}}>
+    <span className="text-xs font-medium" style={{color: '#362c5d'}}>{value}</span>
+    <span className="text-xs text-slate-600">{label}</span>
+  </div>
+)
+
+const CircleMotif = ({ className = '' }: { className?: string }) => (
+  <div className={`absolute rounded-full opacity-5 pointer-events-none ${className}`} style={{ backgroundColor: '#c84449' }} />
+)
+
+export default function Home() {
+  const navigate = useNavigate()
+  const [stats] = useState({ lectures: 0, flashcards: 0, quizzes: 0 })
+
+  const scrollToUpload = () => {
+    document.getElementById('upload-form')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  return (
+    <div className="bg-white overflow-hidden">
+      <style>{`
+        .text-brand-navy { color: #362c5d; }
+        .text-brand-coral { color: #c84449; }
+        .bg-brand-navy { background-color: #362c5d; }
+        .bg-brand-coral { background-color: #c84449; }
+        .bg-brand-coral-light { background-color: #f5f0f0; }
+        .bg-brand-navy-light { background-color: #f8f6fa; }
+        .border-brand-coral { border-color: #c84449; }
+        .border-brand-navy { border-color: #362c5d; }
+        .hover\:border-brand-coral\/30:hover { border-color: rgba(200, 68, 73, 0.3); }
+        .hover\:bg-brand-navy-light:hover { background-color: #f8f6fa; }
+      `}</style>
+      {/* ============ HERO SECTION ============ */}
+      <section className="relative min-h-screen flex items-center pt-32 pb-20">
+        {/* Background motifs */}
+        <CircleMotif className="top-20 left-10 w-96 h-96" />
+        <CircleMotif className="bottom-32 right-20 w-80 h-80" />
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            {/* Left: Headline & CTA */}
+            <div className="max-w-xl">
+              <div className="mb-8">
+                <span className="inline-block text-xs font-medium tracking-widest uppercase text-brand-coral mb-6">Transform Learning</span>
+              </div>
+
+              <h1 className="text-6xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight" style={{color: '#362c5d'}}>
+                AI-Powered Learning, <span className="relative">
+                  Reimagined
+                  <div className="absolute -bottom-2 left-0 w-full h-1" style={{backgroundColor: 'rgba(200, 68, 73, 0.2)'}} />
+                </span>
+              </h1>
+
+              <p className="text-lg text-slate-600 mb-12 leading-relaxed max-w-md">
+                Automatically convert lecture videos into comprehensive study materials: organized notes, targeted flashcards, and intelligent quizzes. Minutes, not hours.
+              </p>
+
+              {/* Stat Chips */}
+              <div className="flex flex-wrap gap-3 mb-12">
+                <StatChip value="342" label="flashcards generated" />
+                <StatChip value="25" label="quiz questions" />
+                <StatChip value="2-5 min" label="processing time" />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={scrollToUpload}
+                  className="px-8 py-4 text-white font-semibold rounded-lg hover:opacity-90 transition transform hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                  style={{backgroundColor: '#362c5d'}}
+                >
+                  Upload Lecture
+                </button>
+                <button
+                  onClick={() => alert('Demo video coming soon!')}
+                  className="px-8 py-4 border-2 font-semibold rounded-lg transition"
+                  style={{borderColor: '#362c5d', color: '#362c5d', backgroundColor: 'rgba(54, 44, 93, 0.02)'}}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <Play className="w-4 h-4" />
+                    Watch Demo
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right: Dashboard Preview */}
+            <div className="hidden lg:block relative h-96">
+              {/* Stacked cards mockup */}
+              <div className="absolute top-0 left-0 w-full">
+                {/* AI Notes Card */}
+                <div className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 mb-4 transform -rotate-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-brand-navy/10 flex items-center justify-center">
+                      <Layers className="w-5 h-5 text-brand-navy" />
+                    </div>
+                    <h3 className="font-semibold text-brand-navy text-sm">AI Notes</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 bg-brand-navy/10 rounded w-3/4" />
+                    <div className="h-2 bg-brand-navy/10 rounded w-1/2" />
+                  </div>
+                </div>
+
+                {/* Flashcards Card */}
+                <div className="bg-brand-coral-light rounded-xl p-6 shadow-lg border border-brand-coral/20 mb-4 transform rotate-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-brand-coral/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-brand-coral" />
+                    </div>
+                    <h3 className="font-semibold text-brand-navy text-sm">Flashcards</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 bg-brand-coral/20 rounded w-full" />
+                    <div className="h-2 bg-brand-coral/20 rounded w-2/3" />
+                  </div>
+                </div>
+
+                {/* Quiz Card */}
+                <div className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 transform -rotate-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-brand-navy/10 flex items-center justify-center">
+                      <Brain className="w-5 h-5 text-brand-navy" />
+                    </div>
+                    <h3 className="font-semibold text-brand-navy text-sm">Quiz</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 bg-brand-navy/10 rounded w-full" />
+                    <div className="h-2 bg-brand-navy/10 rounded w-1/3" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ UPLOAD FLOW SECTION ============ */}
+      <section className="py-24 border-t border-slate-200">
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4" style={{color: '#362c5d'}}>Simple Three-Step Process</h2>
+            <p className="text-slate-600 text-lg">From video to complete study materials in minutes</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
+            {[
+              { step: '1', title: 'Upload Video', icon: Upload, desc: 'Drop your lecture video or slides' },
+              { step: '2', title: 'AI Processes', icon: Zap, desc: 'Our AI extracts and organizes content' },
+              { step: '3', title: 'Study Pack Ready', icon: CheckCircle2, desc: 'Get notes, flashcards, and quizzes' },
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <div className="flex justify-center mb-6">
+                  <div className="w-20 h-20 rounded-full bg-opacity-5 border-2 flex items-center justify-center" style={{backgroundColor: 'rgba(54, 44, 93, 0.05)', borderColor: 'rgba(54, 44, 93, 0.2)'}}>
+                    <item.icon className="w-10 h-10" style={{color: '#362c5d'}} />
+                  </div>
+                </div>
+                <div className="text-5xl font-bold opacity-20 mb-2" style={{color: '#c84449'}}>{item.step}</div>
+                <h3 className="text-xl font-semibold mb-2" style={{color: '#362c5d'}}>{item.title}</h3>
+                <p className="text-slate-600">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress bar */}
+          <div className="max-w-2xl mx-auto h-1 bg-slate-200 rounded-full overflow-hidden">
+            <div className="h-full" style={{backgroundColor: '#c84449', width: '66%'}} />
+          </div>
+        </div>
+      </section>
+
+      {/* ============ WHY CHOOSE SECTION ============ */}
+      <section className="py-24" style={{backgroundColor: '#f8f6fa'}}>
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4" style={{color: '#362c5d'}}>Why Choose LectureIQ?</h2>
+            <p className="text-slate-600 text-lg">Built for modern learners who value efficiency and retention</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                title: 'Lightning-Fast Processing',
+                desc: 'Most lectures process in 2-5 minutes, not days. Get your study materials immediately.',
+                icon: Zap,
+              },
+              {
+                title: 'Smart Learning Tools',
+                desc: 'Adaptive flashcards and intelligent quizzes that target your specific learning gaps.',
+                icon: Brain,
+              },
+              {
+                title: 'Organized Content',
+                desc: 'Section-based navigation with perfectly aligned notes, slides, and timestamps.',
+                icon: Layers,
+              },
+            ].map((feature, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-xl p-8 border border-slate-200 hover:shadow-lg transition"
+                style={{borderColor: 'rgba(54, 44, 93, 0.1)'}}
+              >
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-6" style={{backgroundColor: 'rgba(200, 68, 73, 0.1)'}}>
+                  <feature.icon className="w-6 h-6" style={{color: '#c84449'}} />
+                </div>
+                <h3 className="text-xl font-semibold mb-3" style={{color: '#362c5d'}}>{feature.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ UPLOAD FORM SECTION ============ */}
+      <section id="upload-form" className="py-24 border-t border-slate-200">
+        <div className="container mx-auto px-6">
+          <UploadForm />
+        </div>
+      </section>
+
+      {/* ============ STUDY PACK PREVIEW ============ */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <CircleMotif className="top-1/2 -right-32 w-96 h-96 transform -translate-y-1/2" />
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4" style={{color: '#362c5d'}}>Your Generated Study Pack</h2>
+            <p className="text-slate-600">Everything you need to master the material in one beautiful dashboard</p>
+          </div>
+
+          <StudyPackShowcase />
+        </div>
+      </section>
+
+    </div>
+  )
+}
